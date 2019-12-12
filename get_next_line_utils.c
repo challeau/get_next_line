@@ -6,7 +6,7 @@
 /*   By: challeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 04:15:43 by challeau          #+#    #+#             */
-/*   Updated: 2019/12/10 05:56:50 by challeau         ###   ########.fr       */
+/*   Updated: 2019/12/12 05:38:31 by challeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,32 +29,6 @@ void	ft_memdel(void **ptr)
 		free(*ptr);
 		*ptr = NULL;
 	}
-}
-
-void	ft_realloc(char **ori, int new_sz)
-{
-	int		ori_sz;
-	char	*new;
-
-	if (ori == NULL)
-	{
-		if (!(new = (char *)malloc(sizeof(char) * (new_sz + 1))))
-			return ;
-		while (new_sz >= 0)
-			new[new_sz] = '\0';
-	}
-	else
-	{
-		ori_sz = ft_strlen(*ori);
-		if (!(new = (char *)malloc(sizeof(char) * (ori_sz + new_sz + 1))))
-		{
-			ft_memdel((void **)ori);
-			return ;
-		}
-		ft_strlcpy(new, *ori, ori_sz + 1);
-	}
-	ft_memdel((void **)ori);
-	*ori = new;
 }
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
@@ -94,16 +68,34 @@ char	*ft_strcat(char *dest, const char *src)
 	return (dest);
 }
 
-char	*ft_strdup(char *s)
+char	*ft_strdup(const char *src)
 {
-	int		len;
-	char	*dest;
+	int		i;
+	char	*new;
 
-	len = ft_strlen(s);
-	if (!(dest = (char*)malloc((len + 1) * sizeof(char))))
-		return (0);
-	dest[len] = '\0';
-	while (len-- > 0)
-		dest[len] = s[len];
-	return (dest);
+	i = 0;
+	printf("hello there\n");
+	if (!src)
+	{
+		printf(">>>>>> i enter if\n");
+		if (!(new = (char *)malloc(1)))
+			return (NULL);
+	}
+	printf(">>>>>> im about to throw hands\n");
+//	else
+	if (src)
+	{
+		printf(">>>>>> i enter else\n");
+		if (!(new = (char *)malloc(sizeof(char) * ft_strlen(src) + 1)))
+			return (NULL);
+		while (src[i])
+		{
+			printf("i go in here %d\n", i);
+			new[i] = src[i];
+			i++;
+		}
+	}
+	printf("?????????? i no enter ?????\n");
+	new[i] = '\0';
+	return (new);
 }
