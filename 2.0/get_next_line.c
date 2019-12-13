@@ -6,7 +6,7 @@
 /*   By: challeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 03:15:59 by challeau          #+#    #+#             */
-/*   Updated: 2019/12/13 07:46:31 by challeau         ###   ########.fr       */
+/*   Updated: 2019/12/13 08:06:37 by challeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ static char	*ft_sep_rest(char *str, char *rest, char **line)
 	*line = ft_realloc(*line, i + 1);
 	ft_strlcpy(*line, str, i + 1);
 	tmp = ft_strdup(str + i + 1);
+	str[i] = '\0';
 	ft_memdel((void **)rest);
 	return (tmp);
 }
@@ -94,7 +95,7 @@ int			get_next_line(int fd, char **line)
 	if (v.sz_rd < 0)
 		return (ft_time_to_free(-1, v.str, v.rest, v.buff));
 	v.rest = ft_sep_rest(v.str, v.rest, line);
-	printf("str: %s\nrest: %s\nbuff: %s\nsize: %d\n", v.str, v.rest, v.buff, v.sz_rd);
+//	printf("str: %s\nrest: %s\nbuff: %s\nsize: %d\n", v.str, v.rest, v.buff, v.sz_rd);
 	if ()
 		return (ft_time_to_free(0, v.str, v.rest, v.buff));
 	ft_memdel((void **)v.str);
