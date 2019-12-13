@@ -6,7 +6,7 @@
 /*   By: challeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 04:15:43 by challeau          #+#    #+#             */
-/*   Updated: 2019/12/13 01:16:45 by challeau         ###   ########.fr       */
+/*   Updated: 2019/12/13 03:44:13 by challeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ int		ft_strlen(const char *str)
 	return (i);
 }
 
-void	ft_memdel(void **ptr)
+void	ft_memdel(void *ptr)
 {
 	if (ptr)
 	{
-		free(*ptr);
-		*ptr = NULL;
+		free(ptr);
+		ptr = NULL;
 	}
 }
 

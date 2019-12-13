@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: challeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/10 04:06:30 by challeau          #+#    #+#             */
-/*   Updated: 2019/12/13 03:23:13 by challeau         ###   ########.fr       */
+/*   Created: 2019/12/13 03:15:59 by challeau          #+#    #+#             */
+/*   Updated: 2019/12/13 07:46:31 by challeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,50 +26,50 @@ static int	ft_str_nl(const char *str)
 	return (0);
 }
 
-static void	ft_realloc(int fresh, char **ori, int new_sz)
+static char	*ft_realloc(char *ori, int new_sz)
 {
 	int		ori_sz;
 	char	*new;
 
-	if (fresh == TRUE)
+	if (!ori)
 	{
 		if (!(new = (char *)malloc(sizeof(char) * (new_sz + 1))))
-			return ;
+			return (NULL);
 		while (--new_sz >= 0)
-		{
 			new[new_sz] = '\0';
-			new_sz--;
-		}
 	}
 	else
 	{
-		ori_sz = ft_strlen(*ori);
+		ori_sz = ft_strlen(ori);
 		if (!(new = (char *)malloc(sizeof(char) * (ori_sz + new_sz + 1))))
-			return ;
-		ft_strlcpy(new, *ori, ori_sz + 1);
+			return (NULL);
+		ft_strlcpy(new, ori, ori_sz + 1);
 		ft_memdel((void **)ori);
 	}
-	*ori = new;
+	return (new);
 }
 
-static void	ft_sep_rest(int nl_pos, char **str, char **rest, char **line)
+static int	ft_time_to_free(int ret, char *str, char *rest, char *buff)
 {
-	char	*tmp;
-
-	ft_realloc(TRUE, &tmp, ft_strlen(*str) - nl_pos);
-	ft_strlcpy(tmp, *str + nl_pos + 1, ft_strlen(*str) - nl_pos);
-	ft_memdel((void **)rest);
-	*rest = tmp;
-	ft_realloc(FALSE, &tmp, nl_pos);
-	ft_strlcpy(tmp, *str, nl_pos + 1);
-	*line = ft_strdup(tmp);
-}
-
-static int	ft_ret(int ret, char **str, char **rest)
-{
+	ft_memdel((void **)buff);
 	ft_memdel((void **)str);
 	ft_memdel((void **)rest);
 	return (ret);
+}
+
+static char	*ft_sep_rest(char *str, char *rest, char **line)
+{
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	while (str[i] && str[i] != '\n')
+		i++;
+	*line = ft_realloc(*line, i + 1);
+	ft_strlcpy(*line, str, i + 1);
+	tmp = ft_strdup(str + i + 1);
+	ft_memdel((void **)rest);
+	return (tmp);
 }
 
 int			get_next_line(int fd, char **line)
@@ -78,31 +78,26 @@ int			get_next_line(int fd, char **line)
 
 	if (fd < 0 || !line || BUFFER_SIZE <= 0)
 		return (-1);
-	printf("hello\n");
-	ft_realloc(TRUE, &v.buff, BUFFER_SIZE + 1);
-	ft_realloc(TRUE, line, 1);
+	*line = ft_strdup("");
+	v.buff = ft_realloc(NULL, BUFFER_SIZE + 1);
 	if (!v.rest)
 		v.rest = ft_strdup("");
-	v.nl_pos = 0;
 	v.str = ft_strdup(v.rest);
-	while (v.nl_pos == 0)
+	while ((v.sz_rd = read(fd, v.buff, BUFFER_SIZE)) > 0)
 	{
-		v.nl_pos = ft_str_nl(v.str);
-		while ((v.sz_rd = read(fd, v.buff, BUFFER_SIZE)) > 0)
-		{
-			v.buff[v.sz_rd] = '\0';
-			ft_realloc(FALSE, &v.str, BUFFER_SIZE);
-			ft_strcat(v.str, v.buff);
-		}
-		if (v.sz_rd < 0)
-			return (ft_ret(-1, &v.str, &v.rest));
-		ft_sep_rest(v.nl_pos, &v.str, &v.rest, line);
+		v.buff[v.sz_rd] = '\0';
+		v.str = ft_realloc(v.str, v.sz_rd + 1);
+		ft_strcat(v.str, v.buff);
+		if (ft_str_nl(v.str) != 0)
+			break ;
 	}
-	ft_memdel((void **)&v.buff);
-//	printf("str: %s\n", v.str);
-//	printf("rest: %s\n", v.rest);
-//	printf("line: %s\n", *line);
-	if (ft_str_nl(v.rest) == 0)
-		return (ft_ret(0, &v.str, &v.rest));
+	if (v.sz_rd < 0)
+		return (ft_time_to_free(-1, v.str, v.rest, v.buff));
+	v.rest = ft_sep_rest(v.str, v.rest, line);
+	printf("str: %s\nrest: %s\nbuff: %s\nsize: %d\n", v.str, v.rest, v.buff, v.sz_rd);
+	if ()
+		return (ft_time_to_free(0, v.str, v.rest, v.buff));
+	ft_memdel((void **)v.str);
+	ft_memdel((void **)v.buff);
 	return (1);
 }
