@@ -6,7 +6,7 @@
 /*   By: challeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 01:32:27 by challeau          #+#    #+#             */
-/*   Updated: 2019/12/10 03:43:24 by challeau         ###   ########.fr       */
+/*   Updated: 2019/12/14 01:26:33 by challeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int main(int ac, char **av)
 		while (ret > 0)
 		{
 			ret = get_next_line(fd, &line);
-			if (ret != 0)
+			if (ret >= 0)
 				printf("[%d][LINE %d]: %s\n", ret, i, line);
-			else
+			if (ret == 0)
 				printf("[0][FINISHED]\n");
 			if (ret == -1)
 			{
@@ -45,7 +45,7 @@ int main(int ac, char **av)
 		while (ret > 0)
 		{
 			ret = get_next_line(fd, &line);
-			if (ret > 0)
+			if (ret >= 0)
 				printf("%s\n", line);
 			else if (ret == -1)
 			{
@@ -63,9 +63,9 @@ int main(int ac, char **av)
 		while (ret > 0)
 		{
 			ret = get_next_line(fd, &line);
-			if (ret > 0)
+			if (ret >= 0)
 				printf("[%d][LINE %d]: %s\n", ret, i, line);
-			else if (ret == 0)
+			if (ret == 0)
 				printf("[0][FINISHED]\n");
 			if (ret == -1)
 			{

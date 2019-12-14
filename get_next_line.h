@@ -6,7 +6,7 @@
 /*   By: challeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 02:48:27 by challeau          #+#    #+#             */
-/*   Updated: 2019/12/13 03:43:27 by challeau         ###   ########.fr       */
+/*   Updated: 2019/12/13 22:18:00 by challeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct	s_var
 
 int				get_next_line(int fd, char **line);
 int				ft_strlen(const char *str);
-void			ft_memdel(void **ptr);
+void			ft_memdel(void *ptr);
 size_t			ft_strlcpy(char *dst, const char *src, size_t size);
 char			*ft_strcat(char *dest, const char *src);
 char			*ft_strdup(char *s);
