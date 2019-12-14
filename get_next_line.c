@@ -6,7 +6,7 @@
 /*   By: challeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 03:15:59 by challeau          #+#    #+#             */
-/*   Updated: 2019/12/14 01:26:49 by challeau         ###   ########.fr       */
+/*   Updated: 2019/12/14 06:22:34 by challeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ static char	*ft_sep_rest(char *str, char *rest, char **line)
 		i++;
 	*line = ft_realloc(*line, i + 1);
 	ft_strlcpy(*line, str, i + 1);
-	tmp = ft_strdup(str + i + 1);
+	if (i < ft_strlen(str))
+		tmp = ft_strdup(str + i + 1);
+	else
+		tmp = ft_realloc(NULL, 1);
 	str[i] = '\0';
 	ft_memdel((void **)rest);
 	return (tmp);
@@ -92,8 +95,9 @@ int			get_next_line(int fd, char **line)
 	}
 	if (v.sz_rd < 0)
 		return (ft_time_to_free(-1, v.str, v.rest, v.buff));
+//	printf(">>>>>> str: '%s'\nrest: '%s'\nline:'%s'\n", v.str, v.rest, *line);
 	v.rest = ft_sep_rest(v.str, v.rest, line);
-	if (v.rest[0] == 0 && v.sz_rd < BUFFER_SIZE)
+	if (!*line[0] && v.sz_rd == 0 && !v.rest[0])
 		return (ft_time_to_free(0, v.str, v.rest, v.buff));
 	ft_memdel((void **)v.str);
 	return (1);

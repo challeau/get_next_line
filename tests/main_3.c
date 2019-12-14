@@ -1,4 +1,4 @@
-#include "../2.0/get_next_line.h"
+#include "../get_next_line.h"
 
 int main(int ac, char **av)
 {
@@ -14,12 +14,12 @@ int main(int ac, char **av)
 		while(ret > 0)
 		{
 			ret = get_next_line(fd, &line);
-			if (ret >= 0)
+			if (ret > 0)
 			{
 				printf("[%d][LINE %d]: %s\n", ret, i, line);
-				if (ret == 0)
-					printf("[0][DONE]\n");
 			}
+			else if (ret == 0)
+				printf("[0][DONE]\n");
 			else
 				printf("[-1][!!! ERROR !!!]\n");
 			free(line);
