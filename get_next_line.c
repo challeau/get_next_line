@@ -20,7 +20,7 @@ static int	ft_str_nl(const char *str)
 	while (str[i])
 	{
 		if (str[i] == '\n')
-			return (i);
+			return (1);
 		i++;
 	}
 	return (0);
@@ -95,10 +95,16 @@ int			get_next_line(int fd, char **line)
 	}
 	if (v.sz_rd < 0)
 		return (ft_time_to_free(-1, v.str, v.rest, v.buff));
-//	printf(">>>>>> str: '%s'\nrest: '%s'\nline:'%s'\n", v.str, v.rest, *line);
-	v.rest = ft_sep_rest(v.str, v.rest, line);
-	if (!*line[0] && v.sz_rd == 0 && !v.rest[0])
-		return (ft_time_to_free(0, v.str, v.rest, v.buff));
-	ft_memdel((void **)v.str);
-	return (1);
+	if (ft_str_nl(v.str))
+	{
+		v.rest = ft_sep_rest(v.str, v.rest, line);
+		ft_memdel((void **)v.str);
+		return (1);
+	}
+	else
+	{
+		v.rest = ft_sep_rest(v.str, v.rest, line);
+		return (ft_time_to_free(0, v.str, v.rest, v.buff));	
+	}
+	return (ft_time_to_free(-1, v.str, v.rest, v.buff));
 }
