@@ -25,7 +25,7 @@ int main(int ac, char **av)
 		while (ret > 0)
 		{
 			ret = get_next_line(fd, &line);
-			if (ret > 0)
+			if (ret >= 0)
 				printf("[%d][LINE %d]: %s\n", ret, i, line);
 			if (ret == 0)
 				printf("[0][FINISHED]\n");
@@ -66,7 +66,7 @@ int main(int ac, char **av)
 			if (ret > 0)
 				printf("[%d][LINE %d]: %s\n", ret, i, line);
 			if (ret == 0)
-				printf("[0][FINISHED]\n");
+				printf("[0][REACHED EOF]: %s\n", line);
 			if (ret == -1)
 			{
 				printf("[-1][ERROR]\n");
