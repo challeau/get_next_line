@@ -6,7 +6,7 @@
 /*   By: challeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 01:32:27 by challeau          #+#    #+#             */
-/*   Updated: 2019/12/14 04:52:06 by challeau         ###   ########.fr       */
+/*   Updated: 2020/01/10 11:15:52 by challeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int main(int ac, char **av)
 			if (ret > 0)
 				printf("[%d][LINE %d]: %s\n", ret, i, line);
 			if (ret == 0)
-				printf("[0][REACHED EOF]: %s\n", line);
+				printf("[0][REACHED EOF] %s\n", line);
 			if (ret == -1)
 			{
 				printf("[-1][ERROR]\n");

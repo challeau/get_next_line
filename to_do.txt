@@ -1,1 +1,2 @@
 >> fix read from stdin
+>> fix ft_realloc : if !line then alloc issue
