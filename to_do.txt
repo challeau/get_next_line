@@ -1,4 +1,1 @@
-?? need to bzero buffer
->> check if return value is 0 when read smtg but no \n
-?? return value when reading from stdin
->> tests fail when several lines containing only \n
+>> fix read from stdin
