@@ -1,2 +1,2 @@
->> fix read from stdin
->> fix ft_realloc : if !line then alloc issue
+?? return value (again) --> as long as omething is read it should return 1 OR SHOULD IT
+?? am i supposed to null line ??

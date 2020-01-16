@@ -6,7 +6,7 @@
 /*   By: challeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 03:15:59 by challeau          #+#    #+#             */
-/*   Updated: 2020/01/10 11:29:44 by challeau         ###   ########.fr       */
+/*   Updated: 2020/01/16 05:15:22 by challeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,14 @@ static char	*ft_realloc(char *ori, int new_sz)
 	return (new);
 }
 
-static int	ft_time_to_free(int ret, char *str, char *rest, char *buff)
+static int	ft_time_to_free(int ret, char *buff, char *str, char *rest)
 {
-	ft_memdel((void **)buff);
-	ft_memdel((void **)str);
-	ft_memdel((void **)rest);
+	if (buff)
+		ft_memdel((void **)buff);
+	if (str)
+		ft_memdel((void **)str);
+	if (rest)
+		ft_memdel((void **)rest);
 	return (ret);
 }
 
@@ -81,7 +84,7 @@ int			get_next_line(int fd, char **line)
 	static t_var	v;
 
 	if (fd < 0 || !line || BUFFER_SIZE <= 0)
-		return (-1);
+		return (ft_time_to_free(-1, v.buff, v.str, v.rest));
 	*line = ft_strdup("");
 	v.buff = ft_realloc(v.buff, BUFFER_SIZE + 1);
 	if (!v.rest)
@@ -94,17 +97,13 @@ int			get_next_line(int fd, char **line)
 		ft_strcat(v.str, v.buff);
 	}
 	if (v.sz_rd < 0)
-		return (ft_time_to_free(-1, v.str, v.rest, v.buff));
-	if (ft_str_nl(v.str))
+		return (ft_time_to_free(-1, v.buff, v.str, v.rest));
+	/*if (*v.str)*/if (ft_str_nl(v.str))
 	{
 		v.rest = ft_sep_rest(v.str, v.rest, line);
 		ft_memdel((void **)v.str);
 		return (1);
 	}
-	else
-	{
-		v.rest = ft_sep_rest(v.str, v.rest, line);
-		return (ft_time_to_free(0, v.str, v.rest, v.buff));	
-	}
-	return (ft_time_to_free(-1, v.str, v.rest, v.buff));
+	v.rest = ft_sep_rest(v.str, v.rest, line);
+	return (ft_time_to_free(0, v.buff, v.str, v.rest));	
 }
