@@ -6,7 +6,7 @@
 /*   By: challeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 03:15:59 by challeau          #+#    #+#             */
-/*   Updated: 2020/01/16 05:15:22 by challeau         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:51:47 by challeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int			get_next_line(int fd, char **line)
 	}
 	if (v.sz_rd < 0)
 		return (ft_time_to_free(-1, v.buff, v.str, v.rest));
-	/*if (*v.str)*/if (ft_str_nl(v.str))
+	if (ft_str_nl(v.str))
 	{
 		v.rest = ft_sep_rest(v.str, v.rest, line);
 		ft_memdel((void **)v.str);
