@@ -6,7 +6,7 @@
 /*   By: challeau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 03:15:59 by challeau          #+#    #+#             */
-/*   Updated: 2020/01/22 14:51:47 by challeau         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:57:21 by challeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,5 @@ int			get_next_line(int fd, char **line)
 		return (1);
 	}
 	v.rest = ft_sep_rest(v.str, v.rest, line);
-	return (ft_time_to_free(0, v.buff, v.str, v.rest));	
+	return (ft_time_to_free(0, v.buff, v.str, v.rest));
 }
